@@ -22,7 +22,7 @@
                   <Image url="@assets/home-grey.png" />
                </image>
             </ImageView>
-            <Label id="sessionStatus" fx:id="sessionStatus" layoutX="74.0" layoutY="25.0" text="Session Blank" textFill="WHITE" />
+            <Label id="sessionStatus" layoutX="74.0" layoutY="25.0" text="Session Blank" textFill="WHITE" />
          </children>
       </AnchorPane>
       <Button id="ticketsButton" layoutX="27.0" layoutY="117.0" mnemonicParsing="false" prefHeight="96.0" prefWidth="168.0" style="-fx-background-color: #525252; -fx-background-radius: 10;" text="Tickets" textAlignment="RIGHT" textFill="#bebebe">

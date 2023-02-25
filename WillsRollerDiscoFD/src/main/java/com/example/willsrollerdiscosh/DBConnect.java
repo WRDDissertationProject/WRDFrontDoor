@@ -1,5 +1,8 @@
 package com.example.willsrollerdiscosh;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,11 +51,8 @@ public class DBConnect {
                     resultSet.next();
                     int count = resultSet.getInt(1);
                     boolean recordExists;
-                    if (count > 0) {
-                        sceneSelector.recordExists();
-                    } else {
-                        sceneSelector.recordDoesNotExist();
-                    }
+                   sceneSelector.checkForRecord(count);
+
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
@@ -73,4 +73,36 @@ public class DBConnect {
         }
         return announcementsList;
     }
+
+    public static ObservableList<Skate> loadSkates() {
+        ObservableList<Skate> data = FXCollections.observableArrayList();
+
+        try {
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT skateSize, skateAmount FROM current_skates");
+
+            // iterate through the result set and add Skate objects to the ObservableList
+            while (rs.next()) {
+                String size = rs.getString("skateSize");
+                int amount = rs.getInt("skateAmount");
+                data.add(new Skate(size, amount));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return data;
+    }
+
+    public static void updateSkateListMinus(int newSkateAmount, String skateSize) throws SQLException {
+        //System.out.println(newSkateAmount + "Test");
+        //System.out.println(skateSize + " Test");
+        //update value by inserting into database
+        Statement stmt = connection.createStatement();
+        String sql = "UPDATE current_skates SET skateAmount = " + newSkateAmount + " WHERE skateSize = " + skateSize + " ";
+
+        stmt.executeUpdate(sql);
+        System.out.println("Updated Skate Amount");
+    }
+
 }
