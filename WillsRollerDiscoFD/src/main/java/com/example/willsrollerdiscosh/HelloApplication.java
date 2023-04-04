@@ -1,13 +1,16 @@
 package com.example.willsrollerdiscosh;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -30,27 +33,40 @@ public class HelloApplication extends Application {
         connect.connect();
 
         Timer reloadAnnouncements = new Timer();
-        TimerTask task = new TimerTask() {
+        reloadAnnouncements.schedule(new TimerTask() {
+            @Override
             public void run() {
-                try {
-                    List<String> announcementsData = DBConnect.loadAnnouncement();
-                    ObservableList<String> items = FXCollections.observableArrayList(announcementsData);
-                    ListView lv = (ListView) scene.lookup("#announcementsList");
-                    lv.setItems(items);
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
+                Platform.runLater(() -> {
+                    try {
+                        List<String> announcementsData = DBConnect.loadAnnouncement();
+                        ObservableList<String> items = FXCollections.observableArrayList(announcementsData);
+                        ListView lv = (ListView) scene.lookup("#announcementsList");
+                        listViews.loadAnnouncementsListView(lv);
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
             }
-        };
+        }, 0, 1000);
 
-        // Schedule the task to run every 2 seconds
-        reloadAnnouncements.schedule(task, 0, 2000);
+
+        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent windowEvent) {
+                Platform.exit();
+                System.exit(0);
+            }
+        });
     }
 
     public static void main(String[] args) throws SQLException {
         DBConnect connect = new DBConnect();
         connect.connect();
         connect.sessionStartChecker();
+
+        locks locks = new locks();
+        locks.connect();
+
 
         launch();
     }

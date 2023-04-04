@@ -1,13 +1,11 @@
 package com.example.willsrollerdiscosh;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 public class DBConnect {
     String url = "jdbc:mysql://localhost:3306/wrdDatabase";
@@ -39,11 +37,11 @@ public class DBConnect {
     }
 
     public void sessionStartChecker() throws SQLException {
-        //System.out.println("test");
         Timer reloadSessionChecker = new Timer();
-        TimerTask task = new TimerTask() {
+        reloadSessionChecker.schedule(new TimerTask() {
             @Override
             public void run() {
+                Platform.runLater(() -> {
                 Statement statement = null;
                 try {
                     statement = connection.createStatement();
@@ -56,10 +54,9 @@ public class DBConnect {
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
+                });
             }
-        };
-        reloadSessionChecker.schedule(task, 2000, 2000);
-
+        }, 0, 2000);
     }
 
     public static List<String> loadAnnouncement() throws SQLException {
@@ -104,5 +101,48 @@ public class DBConnect {
         stmt.executeUpdate(sql);
         System.out.println("Updated Skate Amount");
     }
+
+    public static List<String> loadTickets() throws SQLException {
+        Statement stmt = connection.createStatement();
+        ResultSet resultSet = stmt.executeQuery("SELECT * FROM tickets");
+        List<String> ticketsList = new ArrayList<>();
+
+        while (resultSet.next()) {
+            String ticket_details = resultSet.getString("ticket_details");
+            String dateCreated = resultSet.getString("ticket_date");
+            String timeCreated = resultSet.getString("ticket_time");
+            String postedBy = resultSet.getString("staff_id");
+            ticketsList.add("Ticket: " + ticket_details + " \nPosted By: " + postedBy + "\n"
+                    + "Date: " + dateCreated + " Time: " + timeCreated );
+        }
+        return ticketsList;
+    }
+
+    public static void insertTicket(String text) {
+        //insert into query
+        String ticketDate = dateTime.justDate();
+        String ticketTime = dateTime.justTime();
+        String postedBy = "Front Door App";
+        try {
+            Statement stmt = connection.createStatement();
+            PreparedStatement pstmt = connection.prepareStatement(
+                    "INSERT INTO tickets(ticket_date, ticket_time, ticket_details, staff_id) VALUES(?, ?, ?, ?)");
+
+            pstmt.setString(1, ticketDate);
+            pstmt.setString(2, ticketTime);
+            pstmt.setString(3, text);
+            pstmt.setString(4, postedBy);
+
+            pstmt.executeUpdate();
+
+            System.out.println("Inserted Into Database");
+
+        } catch (SQLException e) {
+            System.out.println(e);
+            System.out.println("Announcement not inserted");
+        }
+    }
+
+
 
 }

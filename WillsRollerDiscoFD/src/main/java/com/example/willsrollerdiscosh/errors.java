@@ -11,4 +11,9 @@ import javafx.scene.control.ButtonType;
             return negativeSkates;
         }
 
+        public static Alert alertEmptyBox() {
+            Alert emptyField = new Alert(Alert.AlertType.ERROR, "Text Field Cannot Be Empty", ButtonType.OK);
+            return emptyField;
+        }
+
     }

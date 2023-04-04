@@ -32,10 +32,17 @@ public class sceneSelector {
 
     boolean skateHireLocked = false;
 
+    static String resourceName = "skateHire";
+    static String lockedBy = "FrontDoorApp";
+
+
+    @FXML
+    TextArea ticketsTextBox;
+
     @FXML
     public void switchToHome(ActionEvent event) throws IOException {
         root = FXMLLoader.load(getClass().getResource("home.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
@@ -43,14 +50,32 @@ public class sceneSelector {
 
     public void switchToSkateHire(ActionEvent event) throws IOException, SQLException {
         root = FXMLLoader.load(getClass().getResource("skateHire.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
         SkateHireReloader();
     }
 
-    public static void checkForRecord(int count){
+    public void switchToTickets(ActionEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("tickets.fxml"));
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+
+        TicketsReloader();
+    }
+
+    public void switchToCreateTicket(ActionEvent event) throws IOException{
+        root = FXMLLoader.load(getClass().getResource("createTicket.fxml"));
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    public static void checkForRecord(int count) {
         Button skateHire = (Button) scene.lookup("#skateHireButton");
         Button tickets = (Button) scene.lookup("#ticketsButton");
         Button maintenance = (Button) scene.lookup("#maintenanceButton");
@@ -71,19 +96,19 @@ public class sceneSelector {
             //maintenance.setDisable(true);
         }
     }
-    public static void recordExists(){
+
+    public static void recordExists() {
         //Label session = (Label) scene.lookup("#sessionStatus");
         //session.setText("Session Currently Running");
         System.out.println("Session Currently Running");
     }
 
-    public static void recordDoesNotExist(Scene scene){
+    public static void recordDoesNotExist(Scene scene) {
         //Label session = (Label) scene.lookup("#sessionStatus");
 
         Button skateHire = (Button) scene.lookup("#skateHireButton");
         skateHire.setDisable(true);
     }
-
 
 
     public void lockSkateHire(ActionEvent event) throws IOException {
@@ -100,96 +125,83 @@ public class sceneSelector {
         this.lockButton.setVisible(true);
     }
 
-    public void loadSkateHire() throws SQLException {
-        //Testing Data
-        //Eventually replace with fetch from database
-
+    public static ObservableList<Skate> loadSkateHire(ListView lv) throws SQLException {
         ObservableList<Skate> data = DBConnect.loadSkates();
-        // create table columns
-        TableColumn<Skate, String> skateSizeCol = new TableColumn<>("Skate Size");
-        skateSizeCol.setCellValueFactory(new PropertyValueFactory<>("skateSize"));
+        if (lv.getItems().isEmpty()) {
+            lv.setCellFactory(tv -> new ListCell<Skate>() {
+                @Override
+                protected void updateItem(Skate item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty || item == null) {
+                        setText(null);
+                        setGraphic(null);
+                    } else {
+                        Button button = new Button("Pair Returned");
+                        Label label = new Label("Skate Size: " + item.getSkateSize() + "\nSkates Available: " + item.getSkateAmount());
+                        HBox hbox = new HBox();
+                        hbox.getChildren().addAll(label, button);
+                        hbox.setSpacing(15);
+                        setGraphic(hbox);
+                        if (item.getSkateAmount() > 10) {
+                            setStyle("-fx-background-color:#48992B;");
+                            label.setTextFill(Color.web("BEBEBE"));
+                        } else if (item.getSkateAmount() <= 10 && item.getSkateAmount() > 5) {
+                            setStyle("-fx-background-color: #F7AE2C;");
+                            label.setTextFill(Color.web("2D2D2D"));
+                        } else if (item.getSkateAmount() <= 5) {
+                            setStyle("-fx-background-color: #FA3837;");
+                            label.setTextFill(Color.web("BEBEBE"));
+                        } else {
+                            setStyle("");
+                        }
+                        button.setOnAction(event -> {
+                            // increment skate amount for this row
+                            try {
+                                locks.lock(resourceName, lockedBy);
+                            } catch (SQLException e) {
+                                throw new RuntimeException(e);
+                            }
+                            int currentValue = item.getSkateAmount();
+                            if (currentValue > 0) {
 
-        TableColumn<Skate, String> skateAmountCol = new TableColumn<>("Skate Amount");
-        skateAmountCol.setCellValueFactory(new PropertyValueFactory<>("skateAmount"));
-
-        // create table view and set data and columns
-        TableView<Skate> tableView = new TableView<>();
-        tableView.setItems(data);
-        tableView.getColumns().addAll(skateSizeCol, skateAmountCol);
-
-        // get the existing list view and replace it with the table view
-        ListView lv = (ListView) scene.lookup("#SHListView");
-        ListView<Skate> listView = lv; // replace with your own method to get the existing list view
-        listView.getItems().clear();
-        listView.setCellFactory(tv -> new ListCell<Skate>() {
-            @Override
-            protected void updateItem(Skate item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null) {
-                    setText(null);
-                    setGraphic(null);
-                } else {
-                    Button button = new Button("Pair Hired");
-                    Label label = new Label(item.getSkateSize() + " " + item.getSkateAmount());
-                    HBox hbox = new HBox();
-                    hbox.getChildren().addAll(label, button);
-                    hbox.setSpacing(15);
-                    setGraphic(hbox);
-                    if (item.getSkateAmount() > 10) {
-                        setStyle("-fx-background-color:#48992B;");
-                        label.setTextFill(Color.web("BEBEBE"));
-                    } else if(item.getSkateAmount() <= 10 && item.getSkateAmount() > 5){
-                        setStyle("-fx-background-color: #F7AE2C;");
-                        label.setTextFill(Color.web("2D2D2D"));
-                    } else if(item.getSkateAmount() <= 5){
-                        setStyle("-fx-background-color: #FA3837;");
-                        label.setTextFill(Color.web("BEBEBE"));
-                    }
-                    else {
-                        setStyle("");
-                    }
-                    button.setOnAction(event -> {
-                        // increment skate amount for this row
-                        int currentValue = item.getSkateAmount();
-                        if (currentValue > 0) {
-
-                            int newValue = item.getSkateAmount() - 1;
-                            item.setSkateAmount(newValue);
-                            String skateSize = item.getSkateSize();
+                                int newValue = item.getSkateAmount() - 1;
+                                item.setSkateAmount(newValue);
+                                String skateSize = item.getSkateSize();
                                 try {
                                     DBConnect.updateSkateListMinus(newValue, skateSize);
                                 } catch (SQLException e) {
-                                throw new RuntimeException(e);
+                                    throw new RuntimeException(e);
                                 }
 
-                            if(item.getSkateAmount() > 0) {
-                                label.setText(item.getSkateSize() + " " + item.getSkateAmount());
-                                label.setText(item.getSkateSize() + " " + item.getSkateAmount());
+                                if (item.getSkateAmount() > 0) {
+                                    label.setText(item.getSkateSize() + " " + item.getSkateAmount());
+                                    label.setText(item.getSkateSize() + " " + item.getSkateAmount());
+                                } else if (item.getSkateAmount() > 10) {
+                                    setStyle("-fx-background-color:#48992B;");
+                                    label.setTextFill(Color.web("BEBEBE"));
+
+                                } else if (item.getSkateAmount() <= 10 && item.getSkateAmount() > 5) {
+                                    setStyle("-fx-background-color: #F7AE2C;");
+                                    label.setTextFill(Color.web("2D2D2D"));
+
+                                } else if (item.getSkateAmount() <= 5) {
+                                    setStyle("-fx-background-color: #FA3837;");
+                                    label.setTextFill(Color.web("BEBEBE"));
+                                } else {
+                                    //errors.minusSkates();
+                                }
+                                try {
+                                    locks.unlock(resourceName, lockedBy);
+                                } catch (SQLException e) {
+                                    throw new RuntimeException(e);
+                                }
                             }
-                            else if (item.getSkateAmount() > 10) {
-                                setStyle("-fx-background-color:#48992B;");
-                                label.setTextFill(Color.web("BEBEBE"));
-
-                            } else if(item.getSkateAmount() <= 10 && item.getSkateAmount() > 5){
-                                setStyle("-fx-background-color: #F7AE2C;");
-                                label.setTextFill(Color.web("2D2D2D"));
-
-                            } else if(item.getSkateAmount() <= 5){
-                                setStyle("-fx-background-color: #FA3837;");
-                                label.setTextFill(Color.web("BEBEBE"));
-                            }
-                        }
-                        else {
-                            //errors.minusSkates();
-                        }
-
-                    });
-
+                        });
+                    }
                 }
-
-            }
-        });
-        listView.setItems(data);
+            });
+        }
+        return data;
     }
 
     public void SkateHireReloader() {
@@ -199,8 +211,11 @@ public class sceneSelector {
             public void run() {
                 Platform.runLater(() -> {
                     try {
-                        loadSkateHire();
-                        System.out.println("Skate Hire Reload");
+                        ListView<Skate> lv = (ListView<Skate>) scene.lookup("#SHListView");
+                        if (lv != null) {
+                            listViews.loadSkateHireListView(lv);
+                            System.out.println("Skate Hire Reload");
+                        }
                     } catch (SQLException e) {
                         throw new RuntimeException(e);
                     }
@@ -208,7 +223,44 @@ public class sceneSelector {
             }
         }, 0, 800); // reload every second
 
-}}
+    }
+
+    public void TicketsReloader() {
+        Timer reloadTickets = new Timer();
+        reloadTickets.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                Platform.runLater(() -> {
+                    ListView<Skate> lv = (ListView<Skate>) scene.lookup("#CTListView");
+                    if (lv != null) {
+                        try {
+                            listViews.loadTicketsListView(lv);
+                        } catch (SQLException e) {
+                            throw new RuntimeException(e);
+                        }
+                        System.out.println("Ticket Reload");
+                    }
+                });
+            }
+        }, 0, 800);
+
+    }
+
+    public void createTicket(ActionEvent actionEvent) throws SQLException {
+        resourceName = "tickets";
+        if (ticketsTextBox.getText().isEmpty()) {
+            errors.alertEmptyBox().show();
+        } else {
+            locks.lock(resourceName, lockedBy);
+            String ticketText = ticketsTextBox.getText();
+            System.out.println("Text Found");
+            DBConnect insertTicket = new DBConnect();
+            DBConnect.insertTicket(ticketText);
+            ticketsTextBox.clear();
+            locks.unlock(resourceName,lockedBy);
+        }
+    }
+}
 
 
 

@@ -25,7 +25,7 @@
             <Label id="sessionStatus" layoutX="74.0" layoutY="25.0" text="Session Blank" textFill="WHITE" />
          </children>
       </AnchorPane>
-      <Button id="ticketsButton" layoutX="27.0" layoutY="117.0" mnemonicParsing="false" prefHeight="96.0" prefWidth="168.0" style="-fx-background-color: #525252; -fx-background-radius: 10;" text="Tickets" textAlignment="RIGHT" textFill="#bebebe">
+      <Button id="ticketsButton" layoutX="27.0" layoutY="117.0" mnemonicParsing="false" onAction="#switchToTickets" prefHeight="96.0" prefWidth="168.0" style="-fx-background-color: #525252; -fx-background-radius: 10;" text="Tickets" textAlignment="RIGHT" textFill="#bebebe">
          <font>
             <Font size="16.0" />
          </font>
