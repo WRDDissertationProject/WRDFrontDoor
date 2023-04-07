@@ -28,27 +28,22 @@
             </Button>
          </children>
       </AnchorPane>
-      <Label layoutX="187.0" layoutY="88.0" text="Tickets" textFill="WHITE">
+      <Label layoutX="166.0" layoutY="88.0" text="Maintenance" textFill="WHITE">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
       <AnchorPane layoutX="26.0" layoutY="132.0" prefHeight="292.0" prefWidth="368.0" style="-fx-background-color: #525252; -fx-background-radius: 15px;">
          <children>
-            <Label id="currentAnnouncements" layoutX="14.0" layoutY="3.0" text="Current Tickets" textFill="#bebebe">
+            <Label id="currentAnnouncements" layoutX="14.0" layoutY="3.0" text="Current Maintenance Log" textFill="#bebebe">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <ListView id="CTListView" fx:id="CTListView" layoutY="30.0" prefHeight="313.0" prefWidth="366.0" style="-fx-background-radius: 5px;" styleClass="list-cell" />
+            <ListView id="MListView" fx:id="MListView" layoutY="30.0" prefHeight="313.0" prefWidth="366.0" style="-fx-background-radius: 5px;" styleClass="list-cell" />
          </children>
       </AnchorPane>
-      <Button fx:id="ammendOrDeleteTicket" layoutX="247.0" layoutY="522.0" mnemonicParsing="false" onAction="#switchToEditOrDeleteTicket" prefHeight="62.0" prefWidth="146.0" style="-fx-background-color: #FA3837; -fx-background-radius: 15px;" text="Ammend or Delete" textFill="WHITE">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Button>
-      <Button fx:id="createTicketButton" layoutX="26.0" layoutY="522.0" mnemonicParsing="false" onAction="#switchToCreateTicket" prefHeight="62.0" prefWidth="146.0" style="-fx-background-color: #48992B; -fx-background-radius: 15px;" text="Create" textFill="WHITE">
+      <Button fx:id="createMaintenanceButton" layoutX="138.0" layoutY="519.0" mnemonicParsing="false" onAction="#switchToAddMaintenance" prefHeight="62.0" prefWidth="146.0" style="-fx-background-color: #48992B; -fx-background-radius: 15px;" text="Create" textFill="WHITE">
          <font>
             <Font size="14.0" />
          </font>

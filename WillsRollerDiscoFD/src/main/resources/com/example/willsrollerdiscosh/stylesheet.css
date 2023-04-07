@@ -1,0 +1,46 @@
+* {
+    -fx-background-color: transparent;
+    -fx-border-style: none;
+}
+
+.text-box{
+    -fx-text-fill: #bebebe;
+    -fx-font-size: 12pt;
+}
+
+
+.list-view .list-cell {
+    -fx-text-fill: #bebebe;
+    -fx-border-style: hidden none solid none;
+    -fx-border-color: gray;
+    -fx-border-width: 0 0 1 0;
+    -fx-font-size: 12pt;
+}
+
+.list-view .list-cell:selected {
+    -fx-background-color: gray;
+}
+
+.list-view .list-cell .skateAnnouncement {
+    -fx-text-fill: #bebebe !important;
+    -fx-border-style: hidden none solid none;
+    -fx-border-color: gray;
+    -fx-border-width: 0 0 1 0;
+    -fx-font-size: 12pt;
+}
+
+.edit-button-style {
+    -fx-background-color: #53DEBC;
+    -fx-background-radius: 15px;
+    -fx-text-fill: white;
+}
+
+.delete-button-style {
+    -fx-background-color: #FA3837;
+    -fx-background-radius: 15px;
+    -fx-text-fill: white;
+}
+
+.choice-box .menu-item{
+    -fx-background-color: #bebebe;
+}

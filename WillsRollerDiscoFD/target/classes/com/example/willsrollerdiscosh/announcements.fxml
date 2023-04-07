@@ -6,11 +6,11 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="611.0" prefWidth="424.0" style="-fx-background-color: #2D2D2D;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.willsrollerdiscosh.sceneSelector">
+<AnchorPane stylesheets="@stylesheet.css" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="611.0" prefWidth="424.0" style="-fx-background-color: #2D2D2D;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.willsrollerdiscosh.sceneSelector">
    <children>
       <AnchorPane layoutX="28.0" layoutY="104.0" prefHeight="398.0" prefWidth="368.0" style="-fx-background-color: #525252; -fx-background-radius: 15px;">
          <children>
-            <ListView id="announcementsList" fx:id="announcementsList" prefHeight="399.0" prefWidth="368.0" style="-fx-background-radius: 15px;" />
+            <ListView id="announcementsList" fx:id="announcementsList" prefHeight="399.0" prefWidth="368.0" style="-fx-background-radius: 15px;" styleClass="list-cell" />
          </children>
       </AnchorPane>
       <Label layoutX="154.0" layoutY="55.0" text="Announcements" textFill="WHITE">
