@@ -161,6 +161,7 @@ public class sceneSelector {
     }
 
     public static ObservableList<Skate> loadSkateHire(ListView lv) throws SQLException {
+        resourceName = "skateHire";
         ObservableList<Skate> data = DBConnect.loadSkates();
         if (lv.getItems().isEmpty()) {
             lv.setCellFactory(tv -> new ListCell<Skate>() {
@@ -172,6 +173,7 @@ public class sceneSelector {
                         setGraphic(null);
                     } else {
                         Button button = new Button("Pair Hired");
+                        button.getStyleClass().add("SH-Button");
                         Label label = new Label("Skate Size: " + item.getSkateSize() + "\nSkates Available: " + item.getSkateAmount());
                         HBox hbox = new HBox();
                         hbox.getChildren().addAll(label, button);
@@ -240,6 +242,7 @@ public class sceneSelector {
                                     throw new RuntimeException(e);
                                 }
                             }
+
                         });
                     }
                 }
@@ -333,7 +336,7 @@ public class sceneSelector {
     }
 
     public void createTicket(ActionEvent actionEvent) throws SQLException {
-        resourceName = "tickets";
+        resourceName = " tickets";
         if (ticketsTextBox.getText().isEmpty()) {
             errors.alertEmptyBox().show();
         } else {
