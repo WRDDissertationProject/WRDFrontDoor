@@ -9,7 +9,6 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -48,6 +47,38 @@ public class sceneSelector {
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+
+        SesssionStartReloader();
+
+    }
+    public boolean sessionChecker() throws SQLException {
+        boolean session = DBConnect.checkForSessionStart();
+        if(session){
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+
+    public void sessionStatus(){
+        Platform.runLater(() -> {
+
+            sessionStatus = (Label) root.lookup("#sessionStatus");
+
+            // Check if session has started
+            try {
+                String sessionTime = DBConnect.getSessionStartTime();
+                if (sessionChecker() == true) {
+                    sessionStatus.setText("Session: " + sessionTime);
+                } else {
+                    sessionStatus.setText(sessionTime);
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 
     public void switchToSkateHire(ActionEvent event) throws IOException, SQLException {
@@ -57,6 +88,8 @@ public class sceneSelector {
         stage.setScene(scene);
         stage.show();
         SkateHireReloader();
+
+        SesssionStartReloader();
     }
 
     public void switchToTickets(ActionEvent event) throws IOException {
@@ -67,6 +100,8 @@ public class sceneSelector {
         stage.show();
 
         TicketsReloader();
+
+        SesssionStartReloader();
     }
 
     public void switchToCreateTicket(ActionEvent event) throws IOException{
@@ -75,6 +110,8 @@ public class sceneSelector {
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+
+        SesssionStartReloader();
     }
 
     public void switchToEditOrDeleteTicket(ActionEvent event) throws IOException{
@@ -85,6 +122,8 @@ public class sceneSelector {
         stage.show();
 
         EditOrDeleteTicketsReloader();
+
+        SesssionStartReloader();
     }
 
     public void switchToMaintenance(ActionEvent event) throws IOException{
@@ -95,6 +134,8 @@ public class sceneSelector {
         stage.show();
 
         maintenanceReloader();
+
+        SesssionStartReloader();
     }
 
     @FXML
@@ -108,6 +149,30 @@ public class sceneSelector {
         setMaintenanceTypeChoiceBox();
         setSkateSizeChoiceBox();
 
+        SesssionStartReloader();
+
+    }
+
+    @FXML
+    public void switchToExtraSales(ActionEvent event) throws IOException{
+        root = FXMLLoader.load(getClass().getResource("extraSales.fxml"));
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+
+        SesssionStartReloader();
+    }
+
+    @FXML
+    public void switchToAdmissions(ActionEvent event) throws IOException{
+        root = FXMLLoader.load(getClass().getResource("admissions.fxml"));
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+
+        SesssionStartReloader();
     }
 
     public static void checkForRecord(int count) {
@@ -233,9 +298,10 @@ public class sceneSelector {
                                     throw new RuntimeException(e);
                                 }
                             }
-
                             else {
                                 errors.minusSkates().show();
+                                //Add to 0 Skate List
+                                DBConnect.neededSkates(item.getSkateSize());
                                 try {
                                     locks.unlock(resourceName, lockedBy);
                                 } catch (SQLException e) {
@@ -266,6 +332,20 @@ public class sceneSelector {
                     } catch (SQLException e) {
                         throw new RuntimeException(e);
                     }
+                });
+            }
+        }, 0, 800); // reload every second
+
+    }
+
+    public void SesssionStartReloader() {
+        Timer reloadSkateHire = new Timer();
+        reloadSkateHire.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                Platform.runLater(() -> {
+                    System.out.println("Session Start Reload");
+                    sessionStatus();
                 });
             }
         }, 0, 800); // reload every second

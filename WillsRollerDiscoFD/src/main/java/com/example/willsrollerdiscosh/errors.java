@@ -7,7 +7,7 @@ import javafx.scene.control.ButtonType;
     public class errors {
 
         public static Alert minusSkates() {
-            Alert negativeSkates = new Alert(Alert.AlertType.INFORMATION, "Skates Cannot be Negative Numbers", ButtonType.OK);
+            Alert negativeSkates = new Alert(Alert.AlertType.INFORMATION, "Skates Cannot be below 0, added to Needed Skates", ButtonType.OK);
             return negativeSkates;
         }
 

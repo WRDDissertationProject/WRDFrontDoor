@@ -7,9 +7,8 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 
-<AnchorPane stylesheets="@stylesheet.css" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="646.0" prefWidth="424.0" style="-fx-background-color: #2D2D2D;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.willsrollerdiscosh.sceneSelector">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="646.0" prefWidth="424.0" style="-fx-background-color: #2D2D2D;" stylesheets="@stylesheet.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.willsrollerdiscosh.sceneSelector">
    <children>
       <AnchorPane id="topBar" prefHeight="67.0" prefWidth="424.0" style="-fx-background-color: #000000;">
          <children>
@@ -18,7 +17,6 @@
                   <Image url="@assets/WRDLogo.png" />
                </image>
             </ImageView>
-            <Text fill="WHITE" layoutX="71.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Session Time" wrappingWidth="73.45428466796875" />
             <Button layoutX="14.0" layoutY="9.0" maxHeight="50.0" maxWidth="50.0" mnemonicParsing="false" onAction="#switchToHome" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: #000000;">
                <graphic>
                   <ImageView fitHeight="28.0" fitWidth="28.0">
@@ -26,6 +24,7 @@
                   </ImageView>
                </graphic>
             </Button>
+            <Label fx:id="sessionStatus" layoutX="71.0" layoutY="24.0" prefHeight="18.0" prefWidth="213.0" textFill="WHITE" wrapText="true" />
          </children>
       </AnchorPane>
       <Label layoutX="166.0" layoutY="88.0" text="Create Ticket" textFill="WHITE">
@@ -43,10 +42,5 @@
             <Font size="14.0" />
          </font>
       </Button>
-      <ImageView fitHeight="28.0" fitWidth="28.0" layoutX="10.0" layoutY="10.0">
-         <image>
-            <Image url="@../../../../../../../WillsRollerDiscoSH/src/main/resources/com/example/willsrollerdiscosh/assets/home-grey.png" />
-         </image>
-      </ImageView>
    </children>
 </AnchorPane>

@@ -7,8 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<?import javafx.scene.text.Text?>
-<AnchorPane stylesheets="@stylesheet.css" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="646.0" prefWidth="424.0" style="-fx-background-color: #2D2D2D;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.willsrollerdiscosh.sceneSelector">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="646.0" prefWidth="424.0" style="-fx-background-color: #2D2D2D;" stylesheets="@stylesheet.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.willsrollerdiscosh.sceneSelector">
    <children>
       <AnchorPane id="topBar" prefHeight="67.0" prefWidth="424.0" style="-fx-background-color: #000000;">
          <children>
@@ -17,7 +16,7 @@
                   <Image url="@assets/WRDLogo.png" />
                </image>
             </ImageView>
-            <Text fill="WHITE" layoutX="71.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Session Time" wrappingWidth="73.45428466796875" />
+            <Label fx:id="sessionStatus" layoutX="95.0" layoutY="29.0" prefHeight="18.0" prefWidth="213.0" textFill="WHITE" wrapText="true" />
          </children>
       </AnchorPane>
       <Button id="ticketsButton" layoutX="27.0" layoutY="117.0" mnemonicParsing="false" onAction="#switchToTickets" prefHeight="96.0" prefWidth="168.0" style="-fx-background-color: #525252; -fx-background-radius: 10;" text="Tickets" textAlignment="RIGHT" textFill="#bebebe">
@@ -47,6 +46,30 @@
          <graphic>
             <ImageView>
                <Image url="@assets/tools-white.png" />
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button id="extraSalesButton" layoutX="233.0" layoutY="247.0" mnemonicParsing="false" onAction="#switchToExtraSales" prefHeight="96.0" prefWidth="168.0" style="-fx-background-color: #525252; -fx-background-radius: 10;" text="Extra Sales" textFill="#bebebe">
+         <font>
+            <Font size="16.0" />
+         </font>
+         <graphic>
+            <ImageView>
+               <image>
+                  <Image url="@assets/pound-white.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button id="admissionsButton" layoutX="27.0" layoutY="373.0" mnemonicParsing="false" onAction="#switchToAdmissions" prefHeight="96.0" prefWidth="168.0" style="-fx-background-color: #525252; -fx-background-radius: 10;" text="Admissions" textFill="#bebebe">
+         <font>
+            <Font size="16.0" />
+         </font>
+         <graphic>
+            <ImageView>
+               <image>
+                  <Image url="@assets/pound-white.png" />
+               </image>
             </ImageView>
          </graphic>
       </Button>

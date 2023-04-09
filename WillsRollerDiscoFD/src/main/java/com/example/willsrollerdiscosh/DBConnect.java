@@ -16,6 +16,48 @@ public class DBConnect {
 
     static ResultSet rs;
 
+    public static void neededSkates(String skateSize) {
+        String date = dateTime.justDate();
+        System.out.println(skateSize);
+        System.out.println(date);
+
+        try {
+            Statement stmt = connection.createStatement();
+            PreparedStatement pstmt = connection.prepareStatement(
+                    "INSERT INTO needed_skates(skateSize, dateNeeded) VALUES(?, ?)");
+
+            pstmt.setString(1, skateSize);
+            pstmt.setString(2, date);
+            pstmt.executeUpdate();
+
+            System.out.println("Inserted Into Database");
+
+        } catch (SQLException e) {
+            System.out.println(e);
+            System.out.println("Skates Needed not inserted");
+        }
+
+    }
+    public static boolean checkForSessionStart() throws SQLException {
+        String query = "SELECT * FROM current_session";
+        Statement stmt = connection.createStatement();
+        ResultSet rs = stmt.executeQuery(query);
+        return rs.next();
+    }
+    public static String getSessionStartTime() {
+        String query = "SELECT current_dateTime FROM current_session";
+        try (Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+            if (rs.next()) {
+                return rs.getString("current_dateTime");
+            } else {
+                return "Session not started";
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void connect() {
         {
             try {
