@@ -19,6 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class sceneSelector {
     @FXML
@@ -29,7 +32,7 @@ public class sceneSelector {
 
     @FXML
     static
-    Label sessionStatus;
+    Label sessionStatus, admittedStatus, salesStatus;
 
     boolean skateHireLocked = false;
 
@@ -51,7 +54,7 @@ public class sceneSelector {
         SesssionStartReloader();
 
     }
-    public boolean sessionChecker() throws SQLException {
+    public static boolean sessionChecker() throws SQLException {
         boolean session = DBConnect.checkForSessionStart();
         if(session){
             return true;
@@ -546,6 +549,214 @@ public class sceneSelector {
 
         }
     }
+
+    public void addSkaterOwnSkates(ActionEvent event) throws SQLException {
+        boolean session = sessionChecker();
+
+        if(session){
+            System.out.println("Add Skater Own Skates");
+            showAdmissionLabel(((Node) event.getSource()).getScene().getRoot());
+            DBConnect.addSkaterAdmission("ownSkates", false, 6.00);
+        }
+        else {
+            System.out.println("Session not started");
+            errors.sessionNotStarted().show();
+        }
+    }
+
+    public void addSkaterSkaterHire(ActionEvent event) throws SQLException {
+        boolean session = sessionChecker();
+
+        if(session){
+            System.out.println("Add Skater Skate Hire");
+            showAdmissionLabel(((Node) event.getSource()).getScene().getRoot());
+            DBConnect.addSkaterAdmission("skateHire", false, 7.50);
+        }
+        else {
+            System.out.println("Session not started");
+            errors.sessionNotStarted().show();
+        }
+
+    }
+
+    public void addMemberOwnSkates(ActionEvent event) throws SQLException {
+        boolean session = sessionChecker();
+        showAdmissionLabel(((Node) event.getSource()).getScene().getRoot());
+
+        if(session){
+            System.out.println("Add Member Own Skates");
+            showAdmissionLabel(((Node) event.getSource()).getScene().getRoot());
+            DBConnect.addSkaterAdmission("ownSkates", true, 6.00);
+        }
+        else {
+            System.out.println("Session not started");
+            errors.sessionNotStarted().show();
+        }
+
+    }
+
+    public void addMemberSkateHire(ActionEvent event) throws SQLException {
+        boolean session = sessionChecker();
+
+        if(session){
+            System.out.println("Add Member Skate Hire");
+            showAdmissionLabel(((Node) event.getSource()).getScene().getRoot());
+            DBConnect.addSkaterAdmission("skateHire", true, 6.00);
+        }
+        else {
+            System.out.println("Session not started");
+            errors.sessionNotStarted().show();
+        }
+
+    }
+
+    public void addSpectator(ActionEvent event) throws SQLException {
+        boolean session = sessionChecker();
+
+        if(session){
+            System.out.println("Add Spectator");
+            showAdmissionLabel(((Node) event.getSource()).getScene().getRoot());
+            DBConnect.addSkaterAdmission("spectator", false, 0.00);
+        }
+        else {
+            System.out.println("Session not started");
+            errors.sessionNotStarted().show();
+        }
+    }
+
+    public void showAdmissionLabel(Parent root) {
+        Label admissionLabel= (Label) root.lookup("#admittedStatus");
+        admissionLabel.setVisible(true);
+
+        ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
+        executor.schedule(() -> {
+            Platform.runLater(() -> {
+                admissionLabel.setVisible(false);
+            });
+        }, 2, TimeUnit.SECONDS);
+    }
+
+    public void showSalesLabel(Parent root) {
+        Label salesLabel= (Label) root.lookup("#salesStatus");
+        salesLabel.setVisible(true);
+
+        ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
+        executor.schedule(() -> {
+            Platform.runLater(() -> {
+                salesLabel.setVisible(false);
+            });
+        }, 2, TimeUnit.SECONDS);
+    }
+
+    public void addGlowstickSale(ActionEvent event) throws SQLException {
+        resourceName ="extraSales";
+        boolean session = sessionChecker();
+
+        if(session){
+            System.out.println("Add Glow Stick Sale");
+            showSalesLabel(((Node) event.getSource()).getScene().getRoot());
+
+            locks.lock(resourceName,lockedBy);
+            DBConnect.addExtraPurchase(0.20);
+            locks.unlock(resourceName,lockedBy);
+        }
+        else {
+            System.out.println("Session not started");
+            errors.sessionNotStarted().show();
+        }
+    }
+
+    public void addFoamGlowstickSale(ActionEvent event) throws SQLException {
+        resourceName ="extraSales";
+        boolean session = sessionChecker();
+
+        if(session){
+            System.out.println("Add Foam Glow Stick Sale");
+            showSalesLabel(((Node) event.getSource()).getScene().getRoot());
+
+            locks.lock(resourceName,lockedBy);
+            DBConnect.addExtraPurchase(2.00);
+            locks.unlock(resourceName,lockedBy);
+        }
+        else {
+            System.out.println("Session not started");
+            errors.sessionNotStarted().show();
+        }
+    }
+
+    public void addSkateLacesSale(ActionEvent event) throws SQLException {
+        resourceName ="extraSales";
+        boolean session = sessionChecker();
+
+        if(session){
+            System.out.println("Add Skate Laces Sale");
+            showSalesLabel(((Node) event.getSource()).getScene().getRoot());
+
+            locks.lock(resourceName,lockedBy);
+            DBConnect.addExtraPurchase(3.00);
+            locks.unlock(resourceName,lockedBy);
+        }
+        else {
+            System.out.println("Session not started");
+            errors.sessionNotStarted().show();
+        }
+    }
+
+    public void addSeasonalSale(ActionEvent event) throws SQLException {
+        resourceName ="extraSales";
+        boolean session = sessionChecker();
+
+        if(session){
+            System.out.println("Add Seasonal Sale");
+            showSalesLabel(((Node) event.getSource()).getScene().getRoot());
+
+            locks.lock(resourceName,lockedBy);
+            DBConnect.addExtraPurchase(1.00);
+            locks.unlock(resourceName,lockedBy);
+        }
+        else {
+            System.out.println("Session not started");
+            errors.sessionNotStarted().show();
+        }
+    }
+
+    public void addItemReplacement(ActionEvent event) throws SQLException {
+        resourceName ="extraSales";
+        boolean session = sessionChecker();
+
+        if(session){
+            System.out.println("Add ItemReplacement");
+            showSalesLabel(((Node) event.getSource()).getScene().getRoot());
+
+            locks.lock(resourceName,lockedBy);
+            DBConnect.addExtraPurchase(0.00);
+            locks.unlock(resourceName,lockedBy);
+        }
+        else {
+            System.out.println("Session not started");
+            errors.sessionNotStarted().show();
+        }
+    }
+
+    public void addFreePromotion(ActionEvent event) throws SQLException {
+        resourceName ="extraSales";
+        boolean session = sessionChecker();
+
+        if(session){
+            System.out.println("Add Free Promotion");
+            showSalesLabel(((Node) event.getSource()).getScene().getRoot());
+            locks.lock(resourceName,lockedBy);
+            DBConnect.addExtraPurchase(0.00);
+            locks.unlock(resourceName,lockedBy);
+        }
+        else {
+            System.out.println("Session not started");
+            errors.sessionNotStarted().show();
+        }
+    }
+
+
+
 }
 
 

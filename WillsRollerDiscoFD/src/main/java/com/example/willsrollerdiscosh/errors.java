@@ -31,4 +31,14 @@ import javafx.scene.control.ButtonType;
             return maintenanceEmpty;
         }
 
+        public static Alert sessionNotStarted(){
+            Alert sessionNotStarted = new Alert(Alert.AlertType.WARNING, "Cannot Admit Customers Before a Session Has Started");
+            return sessionNotStarted;
+        }
+
+        public static Alert noSkaterType(){
+            Alert noSkaterType = new Alert(Alert.AlertType.ERROR, "No Skater Type Found, record not entered");
+            return noSkaterType;
+        }
+
     }

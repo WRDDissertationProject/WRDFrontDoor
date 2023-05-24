@@ -313,9 +313,108 @@ public class DBConnect {
         }
 
         return value;
-
     }
 
+    public static void addSkaterAdmission(String skaterType, Boolean memberBoolean, Double admissionFee) throws SQLException {
+
+        //fetch current session
+        String currentSessionQuery = "SELECT * FROM current_session";
+        Statement selectStmt = connection.createStatement();
+        ResultSet rs = selectStmt.executeQuery(currentSessionQuery);
+
+        int ownSkaters = 0;
+        int hireSkaters = 0;
+        int spectators = 0;
+        int members = 0;
+
+        Double totalProfit = 0.00;
+        Double profitOwnSkaters = 0.00;
+        Double profitHireSkaters = 0.00;
+
+        String currentSession = " ";
+        while (rs.next()) {
+            currentSession = rs.getString("current_dateTime");
+            ownSkaters = rs.getInt("Current_Own_skaters");
+            hireSkaters = rs.getInt("Current_Hire_skaters");
+            spectators = rs.getInt("Current_Spectators");
+            members = rs.getInt("Current_Membership_cards_used");
+            profitOwnSkaters = rs.getDouble("Current_Admission_profit_own_skaters");
+            profitHireSkaters = rs.getDouble("Current_Admission_profit_hire_skaters");
+            totalProfit = rs.getDouble("Current_Admission_profit_total");
+            Double extrasSoldAmount = rs.getDouble("Current_Extras_sold_amount");
+            Double extrasSoldTotal = rs.getDouble("Current_Extras_sold_total");
+        }
+
+        switch (skaterType) {
+            case "ownSkates":
+                ownSkaters = ownSkaters + 1;
+                profitOwnSkaters = profitOwnSkaters + admissionFee;
+                break;
+
+            case "skateHire":
+                hireSkaters = hireSkaters + 1;
+                profitHireSkaters = profitHireSkaters + admissionFee;
+                break;
+
+            case "spectator":
+                spectators = spectators + 1;
+                break;
+
+            default:
+                errors.noSkaterType().show();
+                break;
+
+        }
+
+        if (memberBoolean) {
+            members = members + 1;
+        }
+
+        //get total profit database
+        totalProfit = totalProfit + admissionFee;
+
+        String updateQuery = "UPDATE current_session SET Current_Own_skaters = ?, Current_Hire_skaters = ?, Current_Spectators = ?, Current_Membership_cards_used = ?, Current_Admission_profit_own_skaters = ?, Current_Admission_profit_hire_skaters = ?, Current_Admission_profit_total = ? WHERE current_dateTime = ?";
+        PreparedStatement updateStmt = connection.prepareStatement(updateQuery);
+        updateStmt.setInt(1, ownSkaters);
+        updateStmt.setInt(2, hireSkaters);
+        updateStmt.setInt(3, spectators);
+        updateStmt.setInt(4, members);
+        updateStmt.setDouble(5, profitOwnSkaters);
+        updateStmt.setDouble(6, profitHireSkaters);
+        updateStmt.setDouble(7, totalProfit);
+        updateStmt.setString(8, currentSession);
+
+        updateStmt.executeUpdate();
+    }
+
+    public static void addExtraPurchase(Double purchaseCost) throws SQLException {
+
+        //fetch current session
+        String currentSessionQuery = "SELECT * FROM current_session";
+        Statement selectStmt = connection.createStatement();
+        ResultSet rs = selectStmt.executeQuery(currentSessionQuery);
+
+        int extrasSoldAmountFetch = 0;
+        Double extrasSoldTotalFetch =0.00;
+        String currentSession = " ";
+
+        while (rs.next()) {
+            currentSession = rs.getString("current_dateTime");
+            extrasSoldAmountFetch = rs.getInt("Current_Extras_sold_amount");
+            extrasSoldTotalFetch = rs.getDouble("Current_Extras_sold_total");
+        }
+
+        int extrasSoldAmount = extrasSoldAmountFetch + 1;
+        Double extrasSoldTotal = extrasSoldTotalFetch + purchaseCost;
 
 
+        String updateQuery = "UPDATE current_session SET Current_Extras_sold_amount = ?, " +
+                "Current_Extras_sold_total = ? WHERE current_dateTime = ?";
+        PreparedStatement updateStmt = connection.prepareStatement(updateQuery);
+        updateStmt.setInt(1, extrasSoldAmount);
+        updateStmt.setDouble(2, extrasSoldTotal);
+        updateStmt.setString(3, currentSession);
+
+        updateStmt.executeUpdate();
+    }
 }

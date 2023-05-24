@@ -28,7 +28,7 @@
             <Label fx:id="sessionStatus" layoutX="75.0" layoutY="24.0" prefHeight="18.0" prefWidth="213.0" textFill="WHITE" wrapText="true" />
          </children>
       </AnchorPane>
-      <Button id="admissionsButton" layoutX="23.0" layoutY="160.0" mnemonicParsing="false" prefHeight="96.0" prefWidth="168.0" style="-fx-background-color: #525252; -fx-background-radius: 10;" text="Skater (Own Skates)" textFill="#bebebe">
+      <Button id="admissionsButton" layoutX="23.0" layoutY="160.0" mnemonicParsing="false" onAction="#addSkaterOwnSkates" prefHeight="96.0" prefWidth="168.0" style="-fx-background-color: #525252; -fx-background-radius: 10;" text="Skater (Own Skates)" textFill="#bebebe">
          <font>
             <Font size="16.0" />
          </font>
@@ -39,25 +39,30 @@
             <Font size="16.0" />
          </font>
       </Label>
-      <Button id="admissionsButton" layoutX="235.0" layoutY="160.0" mnemonicParsing="false" prefHeight="96.0" prefWidth="168.0" style="-fx-background-color: #525252; -fx-background-radius: 10;" text="Skater (Skate Hire)" textAlignment="CENTER" textFill="#bebebe" wrapText="true">
+      <Button id="admissionsButton" layoutX="235.0" layoutY="160.0" mnemonicParsing="false" onAction="#addSkaterSkaterHire" prefHeight="96.0" prefWidth="168.0" style="-fx-background-color: #525252; -fx-background-radius: 10;" text="Skater (Skate Hire)" textAlignment="CENTER" textFill="#bebebe" wrapText="true">
          <font>
             <Font size="16.0" />
          </font>
       </Button>
-      <Button id="admissionsButton" layoutX="23.0" layoutY="285.0" mnemonicParsing="false" prefHeight="96.0" prefWidth="168.0" style="-fx-background-color: #525252; -fx-background-radius: 10;" text="Member (Own Skates)" textAlignment="CENTER" textFill="#bebebe" wrapText="true">
+      <Button id="admissionsButton" layoutX="23.0" layoutY="285.0" mnemonicParsing="false" onAction="#addMemberOwnSkates" prefHeight="96.0" prefWidth="168.0" style="-fx-background-color: #525252; -fx-background-radius: 10;" text="Member (Own Skates)" textAlignment="CENTER" textFill="#bebebe" wrapText="true">
          <font>
             <Font size="16.0" />
          </font>
       </Button>
-      <Button id="admissionsButton" layoutX="235.0" layoutY="285.0" mnemonicParsing="false" prefHeight="96.0" prefWidth="168.0" style="-fx-background-color: #525252; -fx-background-radius: 10;" text="Member (Skate Hire)" textFill="#bebebe">
+      <Button id="admissionsButton" layoutX="235.0" layoutY="285.0" mnemonicParsing="false" onAction="#addMemberSkateHire" prefHeight="96.0" prefWidth="168.0" style="-fx-background-color: #525252; -fx-background-radius: 10;" text="Member (Skate Hire)" textFill="#bebebe">
          <font>
             <Font size="16.0" />
          </font>
       </Button>
-      <Button id="admissionsButton" layoutX="128.0" layoutY="413.0" mnemonicParsing="false" prefHeight="96.0" prefWidth="168.0" style="-fx-background-color: #525252; -fx-background-radius: 10;" text="Spectator" textFill="#bebebe">
+      <Button id="admissionsButton" layoutX="128.0" layoutY="413.0" mnemonicParsing="false" onAction="#addSpectator" prefHeight="96.0" prefWidth="168.0" style="-fx-background-color: #525252; -fx-background-radius: 10;" text="Spectator" textFill="#bebebe">
          <font>
             <Font size="16.0" />
          </font>
       </Button>
+      <Label fx:id="admittedStatus" layoutX="152.0" layoutY="562.0" text="Person Admitted" textFill="WHITE" visible="false">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

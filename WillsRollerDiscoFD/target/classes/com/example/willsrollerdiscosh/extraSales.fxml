@@ -26,7 +26,7 @@
             <Label fx:id="sessionStatus" layoutX="81.0" layoutY="25.0" prefHeight="18.0" prefWidth="213.0" textFill="WHITE" wrapText="true" />
          </children>
       </AnchorPane>
-      <Button id="admissionsButton" layoutX="23.0" layoutY="160.0" mnemonicParsing="false" prefHeight="96.0" prefWidth="168.0" style="-fx-background-color: #525252; -fx-background-radius: 10;" text="Glow Sticks (20P)" textFill="#bebebe">
+      <Button id="admissionsButton" layoutX="23.0" layoutY="160.0" mnemonicParsing="false" onAction="#addGlowstickSale" prefHeight="96.0" prefWidth="168.0" style="-fx-background-color: #525252; -fx-background-radius: 10;" text="Glow Sticks (20P)" textFill="#bebebe">
          <font>
             <Font size="16.0" />
          </font>
@@ -37,30 +37,35 @@
             <Font size="16.0" />
          </font>
       </Label>
-      <Button id="admissionsButton" layoutX="235.0" layoutY="160.0" mnemonicParsing="false" prefHeight="96.0" prefWidth="168.0" style="-fx-background-color: #525252; -fx-background-radius: 10;" text="Foam Glowstick (£2.00)" textAlignment="CENTER" textFill="#bebebe" wrapText="true">
+      <Button id="admissionsButton" layoutX="235.0" layoutY="160.0" mnemonicParsing="false" onAction="#addFoamGlowstickSale" prefHeight="96.0" prefWidth="168.0" style="-fx-background-color: #525252; -fx-background-radius: 10;" text="Foam Glowstick (£2.00)" textAlignment="CENTER" textFill="#bebebe" wrapText="true">
          <font>
             <Font size="16.0" />
          </font>
       </Button>
-      <Button id="admissionsButton" layoutX="23.0" layoutY="285.0" mnemonicParsing="false" prefHeight="96.0" prefWidth="168.0" style="-fx-background-color: #525252; -fx-background-radius: 10;" text="Skate Laces £3.00" textFill="#bebebe">
+      <Button id="admissionsButton" layoutX="23.0" layoutY="285.0" mnemonicParsing="false" onAction="#addSkateLacesSale" prefHeight="96.0" prefWidth="168.0" style="-fx-background-color: #525252; -fx-background-radius: 10;" text="Skate Laces £3.00" textFill="#bebebe">
          <font>
             <Font size="16.0" />
          </font>
       </Button>
-      <Button id="admissionsButton" layoutX="235.0" layoutY="285.0" mnemonicParsing="false" prefHeight="96.0" prefWidth="168.0" style="-fx-background-color: #525252; -fx-background-radius: 10;" text="Seasonal " textFill="#bebebe">
+      <Button id="admissionsButton" layoutX="235.0" layoutY="285.0" mnemonicParsing="false" onAction="#addSeasonalSale" prefHeight="96.0" prefWidth="168.0" style="-fx-background-color: #525252; -fx-background-radius: 10;" text="Seasonal " textFill="#bebebe">
          <font>
             <Font size="16.0" />
          </font>
       </Button>
-      <Button id="admissionsButton" layoutX="23.0" layoutY="405.0" mnemonicParsing="false" prefHeight="96.0" prefWidth="168.0" style="-fx-background-color: #525252; -fx-background-radius: 10;" text="Item Replacement" textFill="#bebebe">
+      <Button id="admissionsButton" layoutX="23.0" layoutY="405.0" mnemonicParsing="false" onAction="#addItemReplacement" prefHeight="96.0" prefWidth="168.0" style="-fx-background-color: #525252; -fx-background-radius: 10;" text="Item Replacement" textFill="#bebebe">
          <font>
             <Font size="16.0" />
          </font>
       </Button>
-      <Button id="admissionsButton" layoutX="235.0" layoutY="405.0" mnemonicParsing="false" prefHeight="96.0" prefWidth="168.0" style="-fx-background-color: #525252; -fx-background-radius: 10;" text="Free Promotion" textFill="#bebebe">
+      <Button id="admissionsButton" layoutX="235.0" layoutY="405.0" mnemonicParsing="false" onAction="#addFreePromotion" prefHeight="96.0" prefWidth="168.0" style="-fx-background-color: #525252; -fx-background-radius: 10;" text="Free Promotion" textFill="#bebebe">
          <font>
             <Font size="16.0" />
          </font>
       </Button>
+      <Label fx:id="salesStatus" layoutX="162.0" layoutY="572.0" text="Sale Added" textFill="WHITE" visible="false">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
