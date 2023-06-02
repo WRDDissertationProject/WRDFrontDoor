@@ -145,6 +145,34 @@ public class DBConnect {
         System.out.println("Updated Skate Amount");
     }
 
+    public static void updateSkatesAnalytics(String skateSize) throws SQLException {
+        int newSkateAmount = 0;
+
+        // Fetch current skateAmount from current_skates_analytics
+        String query = "SELECT skateAmount FROM current_skates_analytics WHERE skateSize = ?";
+        PreparedStatement stmt = connection.prepareStatement(query);
+        stmt.setString(1, skateSize);
+        ResultSet fetchRs = stmt.executeQuery();
+
+        if (fetchRs.next()) {
+            int currentSkateAmount = fetchRs.getInt("skateAmount");
+            newSkateAmount = currentSkateAmount + 1;
+        } else {
+            // Handle case when skateSize is not found in the table
+            System.out.println("SkateSize not found in current_skates_analytics");
+            return;
+        }
+        // Update value by inserting into database
+        String updateQuery = "UPDATE current_skates_analytics SET skateAmount = ? WHERE skateSize = ?";
+        PreparedStatement updateStmt = connection.prepareStatement(updateQuery);
+        updateStmt.setInt(1, newSkateAmount);
+        updateStmt.setString(2, skateSize);
+        updateStmt.executeUpdate();
+
+        System.out.println("Updated Skate Analytics");
+    }
+
+
     public static List<String> loadTickets() throws SQLException {
         Statement stmt = connection.createStatement();
         ResultSet resultSet = stmt.executeQuery("SELECT * FROM tickets");
@@ -417,4 +445,19 @@ public class DBConnect {
 
         updateStmt.executeUpdate();
     }
+    public static void addTransaction(String session, String type, String time, Double value) throws SQLException {
+        System.out.println("Transaction Added Test");
+        Statement stmt = connection.createStatement();
+        String sql = "INSERT INTO transaction_history(session_dateTime, transaction_type, transaction_time, " +
+                "transaction_value)" +
+                    " VALUES('" + session + "', '" + type + "', '" + time + "', '" + value + "')";
+        stmt.executeUpdate(sql);
+        System.out.println("Inserted Into Database");
+    }
 }
+/*Table: transaction_history
+Columns:
+session_dateTime varchar(45) PK
+transaction_type varchar(45)
+transaction_time varchar(45)
+transaction_value double */

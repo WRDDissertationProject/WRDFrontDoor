@@ -274,6 +274,7 @@ public class sceneSelector {
                                 String skateSize = item.getSkateSize();
                                 try {
                                     DBConnect.updateSkateListMinus(newValue, skateSize);
+                                    DBConnect.updateSkatesAnalytics(skateSize);
                                 } catch (SQLException e) {
                                     throw new RuntimeException(e);
                                 }
@@ -554,9 +555,19 @@ public class sceneSelector {
         boolean session = sessionChecker();
 
         if(session){
+            double value = 6.00;
+            String type = "Skater";
+
+            String sessionDateTime = DBConnect.getSessionStartTime();
             System.out.println("Add Skater Own Skates");
             showAdmissionLabel(((Node) event.getSource()).getScene().getRoot());
-            DBConnect.addSkaterAdmission("ownSkates", false, 6.00);
+            DBConnect.addSkaterAdmission("ownSkates", false, value);
+
+            resourceName= "transactions";
+            locks.lock(resourceName,lockedBy);
+            String time = dateTime.justTime();
+            DBConnect.addTransaction(sessionDateTime, type, time, value );
+            locks.unlock(resourceName,lockedBy);
         }
         else {
             System.out.println("Session not started");
@@ -568,9 +579,19 @@ public class sceneSelector {
         boolean session = sessionChecker();
 
         if(session){
+            double value = 7.50 ;
+            String type = "Skate Hire";
+            String sessionDateTime = DBConnect.getSessionStartTime();
+
             System.out.println("Add Skater Skate Hire");
             showAdmissionLabel(((Node) event.getSource()).getScene().getRoot());
-            DBConnect.addSkaterAdmission("skateHire", false, 7.50);
+            DBConnect.addSkaterAdmission("skateHire", false, value);
+
+            resourceName= "transactions";
+            locks.lock(resourceName,lockedBy);
+            String time = dateTime.justTime();
+            DBConnect.addTransaction(sessionDateTime, type, time, value);
+            locks.unlock(resourceName,lockedBy);
         }
         else {
             System.out.println("Session not started");
@@ -584,9 +605,19 @@ public class sceneSelector {
         showAdmissionLabel(((Node) event.getSource()).getScene().getRoot());
 
         if(session){
+            double value = 6.00;
+            String type = "Skater";
+            String sessionDateTime = DBConnect.getSessionStartTime();
+
             System.out.println("Add Member Own Skates");
             showAdmissionLabel(((Node) event.getSource()).getScene().getRoot());
-            DBConnect.addSkaterAdmission("ownSkates", true, 6.00);
+            DBConnect.addSkaterAdmission("ownSkates", true, value);
+
+            resourceName= "transactions";
+            locks.lock(resourceName,lockedBy);
+            String time = dateTime.justTime();
+            DBConnect.addTransaction(sessionDateTime, type, time, value);
+            locks.unlock(resourceName,lockedBy);
         }
         else {
             System.out.println("Session not started");
@@ -599,9 +630,19 @@ public class sceneSelector {
         boolean session = sessionChecker();
 
         if(session){
+            double value = 7.50;
+            String type = "Skate Hire";
+            String sessionDateTime = DBConnect.getSessionStartTime();
+
             System.out.println("Add Member Skate Hire");
             showAdmissionLabel(((Node) event.getSource()).getScene().getRoot());
-            DBConnect.addSkaterAdmission("skateHire", true, 6.00);
+            DBConnect.addSkaterAdmission("skateHire", true, value);
+
+            resourceName= "transactions";
+            locks.lock(resourceName,lockedBy);
+            String time = dateTime.justTime();
+            DBConnect.addTransaction(sessionDateTime, type, time, value );
+            locks.unlock(resourceName,lockedBy);
         }
         else {
             System.out.println("Session not started");
@@ -614,9 +655,19 @@ public class sceneSelector {
         boolean session = sessionChecker();
 
         if(session){
+            double value = 0.00;
+            String type = "Spectator";
+            String sessionDateTime = DBConnect.getSessionStartTime();
+
             System.out.println("Add Spectator");
             showAdmissionLabel(((Node) event.getSource()).getScene().getRoot());
-            DBConnect.addSkaterAdmission("spectator", false, 0.00);
+            DBConnect.addSkaterAdmission("spectator", false, value);
+
+            resourceName= "transactions";
+            locks.lock(resourceName,lockedBy);
+            String time = dateTime.justTime();
+            DBConnect.addTransaction(sessionDateTime, type, time, value );
+            locks.unlock(resourceName,lockedBy);
         }
         else {
             System.out.println("Session not started");
@@ -653,12 +704,23 @@ public class sceneSelector {
         boolean session = sessionChecker();
 
         if(session){
+            double value = 0.20;
+            String type = "Glow Stick";
+            String sessionDateTime = DBConnect.getSessionStartTime();
+
             System.out.println("Add Glow Stick Sale");
             showSalesLabel(((Node) event.getSource()).getScene().getRoot());
 
             locks.lock(resourceName,lockedBy);
-            DBConnect.addExtraPurchase(0.20);
+            DBConnect.addExtraPurchase(value);
             locks.unlock(resourceName,lockedBy);
+
+            resourceName= "transactions";
+            locks.lock(resourceName,lockedBy);
+            String time = dateTime.justTime();
+            DBConnect.addTransaction(sessionDateTime, type, time, value);
+            locks.unlock(resourceName,lockedBy);
+
         }
         else {
             System.out.println("Session not started");
@@ -671,11 +733,21 @@ public class sceneSelector {
         boolean session = sessionChecker();
 
         if(session){
+            double value = 2.00;
+            String type = "Foam Glow Stick";
+            String sessionDateTime = DBConnect.getSessionStartTime();
+
             System.out.println("Add Foam Glow Stick Sale");
             showSalesLabel(((Node) event.getSource()).getScene().getRoot());
 
             locks.lock(resourceName,lockedBy);
             DBConnect.addExtraPurchase(2.00);
+            locks.unlock(resourceName,lockedBy);
+
+            resourceName= "transactions";
+            locks.lock(resourceName,lockedBy);
+            String time = dateTime.justTime();
+            DBConnect.addTransaction(sessionDateTime, type, time, value);
             locks.unlock(resourceName,lockedBy);
         }
         else {
@@ -685,6 +757,10 @@ public class sceneSelector {
     }
 
     public void addSkateLacesSale(ActionEvent event) throws SQLException {
+        double value = 3.00;
+        String type = "Skate Laces";
+        String sessionDateTime = DBConnect.getSessionStartTime();
+
         resourceName ="extraSales";
         boolean session = sessionChecker();
 
@@ -693,7 +769,13 @@ public class sceneSelector {
             showSalesLabel(((Node) event.getSource()).getScene().getRoot());
 
             locks.lock(resourceName,lockedBy);
-            DBConnect.addExtraPurchase(3.00);
+            DBConnect.addExtraPurchase(value);
+            locks.unlock(resourceName,lockedBy);
+
+            resourceName= "transactions";
+            locks.lock(resourceName,lockedBy);
+            String time = dateTime.justTime();
+            DBConnect.addTransaction(sessionDateTime, type, time, value);
             locks.unlock(resourceName,lockedBy);
         }
         else {
@@ -703,6 +785,10 @@ public class sceneSelector {
     }
 
     public void addSeasonalSale(ActionEvent event) throws SQLException {
+        double value = 1.00;
+        String type = "Seasonal Sale";
+        String sessionDateTime = DBConnect.getSessionStartTime();
+
         resourceName ="extraSales";
         boolean session = sessionChecker();
 
@@ -711,7 +797,13 @@ public class sceneSelector {
             showSalesLabel(((Node) event.getSource()).getScene().getRoot());
 
             locks.lock(resourceName,lockedBy);
-            DBConnect.addExtraPurchase(1.00);
+            DBConnect.addExtraPurchase(value);
+            locks.unlock(resourceName,lockedBy);
+
+            resourceName= "transactions";
+            locks.lock(resourceName,lockedBy);
+            String time = dateTime.justTime();
+            DBConnect.addTransaction(sessionDateTime, type, time, value);
             locks.unlock(resourceName,lockedBy);
         }
         else {
@@ -721,6 +813,10 @@ public class sceneSelector {
     }
 
     public void addItemReplacement(ActionEvent event) throws SQLException {
+        double value = 0.00;
+        String type = "Replacement";
+        String sessionDateTime = DBConnect.getSessionStartTime();
+
         resourceName ="extraSales";
         boolean session = sessionChecker();
 
@@ -729,7 +825,13 @@ public class sceneSelector {
             showSalesLabel(((Node) event.getSource()).getScene().getRoot());
 
             locks.lock(resourceName,lockedBy);
-            DBConnect.addExtraPurchase(0.00);
+            DBConnect.addExtraPurchase(value);
+            locks.unlock(resourceName,lockedBy);
+
+            resourceName= "transactions";
+            locks.lock(resourceName,lockedBy);
+            String time = dateTime.justTime();
+            DBConnect.addTransaction(sessionDateTime, type, time, value);
             locks.unlock(resourceName,lockedBy);
         }
         else {
@@ -739,6 +841,10 @@ public class sceneSelector {
     }
 
     public void addFreePromotion(ActionEvent event) throws SQLException {
+        double value = 0.00;
+        String type = "Free Promotion";
+        String sessionDateTime = DBConnect.getSessionStartTime();
+
         resourceName ="extraSales";
         boolean session = sessionChecker();
 
@@ -746,7 +852,13 @@ public class sceneSelector {
             System.out.println("Add Free Promotion");
             showSalesLabel(((Node) event.getSource()).getScene().getRoot());
             locks.lock(resourceName,lockedBy);
-            DBConnect.addExtraPurchase(0.00);
+            DBConnect.addExtraPurchase(value);
+            locks.unlock(resourceName,lockedBy);
+
+            resourceName= "transactions";
+            locks.lock(resourceName,lockedBy);
+            String time = dateTime.justTime();
+            DBConnect.addTransaction(sessionDateTime, type, time, value);
             locks.unlock(resourceName,lockedBy);
         }
         else {
