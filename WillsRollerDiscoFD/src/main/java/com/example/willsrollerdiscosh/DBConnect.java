@@ -1,13 +1,30 @@
+/** WILLS ROLLER DISCO - DISSERTATION PROJECT
+ *  AUTHOR : EMILY FLETCHER
+ *  STUDENT NUMBER: 18410839
+ *  APPLICATION: WillsRollerDiscoFD
+ *  FILE TITLE: DBConnect.java
+ *  APPLICATION VERSION: 2.0
+ *  DATE OF WRITING: 20/06/2023
+ *
+ *  PURPOSE:
+ *     All the code that relates to database manipulation, including the database connection as well as creates, inserts
+ *     ,updates and deletes.
+ *   */
+
+//PACKAGE
 package com.example.willsrollerdiscosh;
 
+//IMPORTS
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
 import java.sql.*;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class DBConnect {
+    private static final Logger log = Logger.getLogger(String.valueOf(DBConnect.class));
     String url = "jdbc:mysql://localhost:3306/wrdDatabase";
     String username = "root";
     String password = "root";
@@ -33,8 +50,7 @@ public class DBConnect {
             System.out.println("Inserted Into Database");
 
         } catch (SQLException e) {
-            System.out.println(e);
-            System.out.println("Skates Needed not inserted");
+            log.log(Level.SEVERE,"Error Within Skates Needed", e);
         }
 
     }
@@ -68,7 +84,7 @@ public class DBConnect {
             try {
                 connection = DriverManager.getConnection(url, username, password);
             } catch (SQLException e) {
-                System.out.println("Run Time Exception (Connection)");;
+                System.out.println("Run Time Exception (Connection)");
             }
             try {
                 Statement statement = connection.createStatement();
@@ -79,19 +95,18 @@ public class DBConnect {
         }
     }
 
-    public void sessionStartChecker() throws SQLException {
+    public void sessionStartChecker() {
         Timer reloadSessionChecker = new Timer();
         reloadSessionChecker.schedule(new TimerTask() {
             @Override
             public void run() {
                 Platform.runLater(() -> {
-                Statement statement = null;
+                Statement statement;
                 try {
                     statement = connection.createStatement();
                     ResultSet resultSet = statement.executeQuery("SELECT COUNT(*) FROM current_session");
                     resultSet.next();
                     int count = resultSet.getInt(1);
-                    boolean recordExists;
                    sceneSelector.checkForRecord(count);
 
                 } catch (SQLException e) {
@@ -146,7 +161,7 @@ public class DBConnect {
     }
 
     public static void updateSkatesAnalytics(String skateSize) throws SQLException {
-        int newSkateAmount = 0;
+        int newSkateAmount;
 
         // Fetch current skateAmount from current_skates_analytics
         String query = "SELECT skateAmount FROM current_skates_analytics WHERE skateSize = ?";
@@ -221,8 +236,7 @@ public class DBConnect {
             System.out.println("Inserted Into Database");
 
         } catch (SQLException e) {
-            System.out.println(e);
-            System.out.println("Announcement not inserted");
+            log.log(Level.SEVERE,"Announcement not inserted", e);
         }
     }
 
@@ -236,8 +250,7 @@ public class DBConnect {
             success = true;
         }
         catch (SQLException e) {
-            System.out.println(e);
-            System.out.println("Ticket not Deleted");
+            log.log(Level.SEVERE,"Ticket could not be deleted", e);
             success = false;
         }
         return success;
@@ -280,8 +293,7 @@ public class DBConnect {
                 DBConnect.updateSkateInventory(skateSizeIn, newInventoryAmount);
             }
         } catch (SQLException e) {
-            System.out.println(e);
-            System.out.println("Announcement not inserted");
+            log.log(Level.SEVERE,"Announcement not inserted", e);
         }
     }
 
@@ -291,8 +303,7 @@ public class DBConnect {
             String sql = "UPDATE current_skates SET skateAmount = '" + newAmount + "' WHERE skateSize = '" + skateSize + "'";
             stmt.executeUpdate(sql);
         } catch (SQLException e) {
-            System.out.println(e);
-            System.out.println("Skate inventory not updated");
+            log.log(Level.SEVERE,"Skate Inventory Not Updated", e);
         }
     }
 
@@ -302,8 +313,7 @@ public class DBConnect {
             String sql = "UPDATE skate_inventory SET skateAmount = " + newAmount + " WHERE skateSize = '" + skateSize + "'";
             stmt.executeUpdate(sql);
         } catch (SQLException e) {
-            System.out.println(e);
-            System.out.println("Skate inventory not updated");
+            log.log(Level.SEVERE,"Skate inventory not updated", e);
         }
     }
 
@@ -355,9 +365,9 @@ public class DBConnect {
         int spectators = 0;
         int members = 0;
 
-        Double totalProfit = 0.00;
-        Double profitOwnSkaters = 0.00;
-        Double profitHireSkaters = 0.00;
+        double totalProfit = 0.00;
+        double profitOwnSkaters = 0.00;
+        double profitHireSkaters = 0.00;
 
         String currentSession = " ";
         while (rs.next()) {
@@ -369,29 +379,21 @@ public class DBConnect {
             profitOwnSkaters = rs.getDouble("Current_Admission_profit_own_skaters");
             profitHireSkaters = rs.getDouble("Current_Admission_profit_hire_skaters");
             totalProfit = rs.getDouble("Current_Admission_profit_total");
-            Double extrasSoldAmount = rs.getDouble("Current_Extras_sold_amount");
-            Double extrasSoldTotal = rs.getDouble("Current_Extras_sold_total");
+            //Double extrasSoldAmount = rs.getDouble("Current_Extras_sold_amount");
+            //Double extrasSoldTotal = rs.getDouble("Current_Extras_sold_total");
         }
 
         switch (skaterType) {
-            case "ownSkates":
+            case "ownSkates" -> {
                 ownSkaters = ownSkaters + 1;
                 profitOwnSkaters = profitOwnSkaters + admissionFee;
-                break;
-
-            case "skateHire":
+            }
+            case "skateHire" -> {
                 hireSkaters = hireSkaters + 1;
                 profitHireSkaters = profitHireSkaters + admissionFee;
-                break;
-
-            case "spectator":
-                spectators = spectators + 1;
-                break;
-
-            default:
-                errors.noSkaterType().show();
-                break;
-
+            }
+            case "spectator" -> spectators = spectators + 1;
+            default -> errors.noSkaterType().show();
         }
 
         if (memberBoolean) {
@@ -423,7 +425,7 @@ public class DBConnect {
         ResultSet rs = selectStmt.executeQuery(currentSessionQuery);
 
         int extrasSoldAmountFetch = 0;
-        Double extrasSoldTotalFetch =0.00;
+        double extrasSoldTotalFetch =0.00;
         String currentSession = " ";
 
         while (rs.next()) {
@@ -433,7 +435,7 @@ public class DBConnect {
         }
 
         int extrasSoldAmount = extrasSoldAmountFetch + 1;
-        Double extrasSoldTotal = extrasSoldTotalFetch + purchaseCost;
+        double extrasSoldTotal = extrasSoldTotalFetch + purchaseCost;
 
 
         String updateQuery = "UPDATE current_session SET Current_Extras_sold_amount = ?, " +

@@ -1,3 +1,14 @@
+/** WILLS ROLLER DISCO - DISSERTATION PROJECT
+ *  AUTHOR : EMILY FLETCHER
+ *  STUDENT NUMBER: 18410839
+ *  APPLICATION: WillsRollerDiscoFD
+ *  FILE TITLE: Skate.java
+ *  APPLICATION VERSION: 2.0
+ *  DATE OF WRITING: 20/06/2023
+ *
+ *  PURPOSE:
+ *      Setters for skate objects. Used for setting values,
+ *   */
 package com.example.willsrollerdiscosh;
 
 public class Skate {
@@ -16,11 +27,7 @@ public class Skate {
     public Integer getSkateAmount(){
         return skateAmount;
     }
-
-    public void setSkateSize(String skateSize) {
-        this.skateSize = skateSize;
-    }
-
+    
     public void setSkateAmount(Integer skateAmount) {
         this.skateAmount = skateAmount;
     }
