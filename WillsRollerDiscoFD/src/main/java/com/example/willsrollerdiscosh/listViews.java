@@ -25,7 +25,13 @@ import javafx.scene.layout.HBox;
 import java.sql.SQLException;
 import java.util.List;
 
+/*Resources Used:
+ * List Views:  */
+
+//All classes work the same in this method, if the listView is empty then related values are fetched from the database
+//Then those values are added to the list view in layout defined in their database method.
 public class listViews {
+    //Announcements
     public static void loadAnnouncementsListView(ListView lv) throws SQLException {
         if (lv.getItems().isEmpty()) {
             List<String> data = DBConnect.loadAnnouncement();
@@ -33,7 +39,7 @@ public class listViews {
             lv.setItems(items);
         }
     }
-
+    //Tickets
     public static void loadTicketsListView(ListView lv) throws SQLException {
         if (lv.getItems().isEmpty()) {
             List<String> data = DBConnect.loadTickets();
@@ -41,18 +47,21 @@ public class listViews {
             lv.setItems(items);
         }
     }
-
+    //Skate Hire
     public static void loadSkateHireListView(ListView lv) throws SQLException {
         ObservableList<Skate> data = sceneSelector.loadSkateHire(lv);
         lv.setItems(data);
     }
-
+    //Tickets for Editing or Deleting Scene
     public static void loadTicketEditOrDeleteListView(ListView lv) throws SQLException {
+        //If the list view is empty, load the tickets
         if (lv.getItems().isEmpty()) {
             List<String> data = DBConnect.loadTicketsEditOrDelete();
             ObservableList<String> items = FXCollections.observableArrayList(data);
             lv.setItems(items);
 
+            //Custom List View creation
+            //Adds a coloured edit and delete button to each ticket
             lv.setCellFactory(param -> new ListCell<String>() {
 
                 @Override
@@ -71,9 +80,9 @@ public class listViews {
                         hbox.setSpacing(15);
                         setGraphic(hbox);
 
-
                         ticket.setStyle("-fx-text-fill: #bebebe;");
 
+                        //Gets style from a custom style sheet
                         editButton.getStyleClass().add("edit-button-style");
                         deleteButton.getStyleClass().add("delete-button-style");
 
@@ -92,10 +101,12 @@ public class listViews {
         }
     }
 
+    //Placeholder class
     public static void editFunction(){
         System.out.println("Edit Clicked");
     }
 
+    //Maintenance
     public static void loadMaintenanceListView(ListView lv) throws SQLException {
         if (lv.getItems().isEmpty()) {
             List<String> data = DBConnect.loadMaintenance();

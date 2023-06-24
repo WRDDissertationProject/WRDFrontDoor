@@ -17,62 +17,73 @@ package com.example.willsrollerdiscosh;
 //IMPORTS
 import java.sql.*;
 
-    public class locks {
-        String url = "jdbc:mysql://localhost:3306/wrdDatabase";
-        String username = "root";
-        String password = "root";
+public class locks {
+    /******************************************************
+     Local Testing Database Connections
 
-        static Connection connection = null;
+     String url = "jdbc:mysql://localhost:3306/wrdDatabase";
+     String username = "root";
+     String password = "root";
+     ********************************************************/
 
-        static ResultSet rs;
+     /*Docker Database Connections
+     * Using Local host currently due to firewall issues with University Connections*/
+    String url = "jdbc:mysql://localhost:3307/wrddatabase";
+    //String url = "jdbc:mysql://172.17.0.2:3307/wrddatabase";
+    String username = "root";
+    String password = "my-secret-pw";
+    static Connection connection = null;
+    static ResultSet rs;
 
-        public void connect() {
-            {
-                try {
-                    Class.forName("com.mysql.cj.jdbc.Driver");
-                } catch (ClassNotFoundException e) {
-                    System.out.println("Class Not Found");
+    //Duplicate code from DBConnect, used to establish a database connection for the locks
+    //Could be refactored and removed on refinement
+    public void connect() {
+        {
+            try {
+                Class.forName("com.mysql.cj.jdbc.Driver");
+            } catch (ClassNotFoundException e) {
+                System.out.println("Class Not Found");
                 }
-                try {
-                    connection = DriverManager.getConnection(url, username, password);
-                } catch (SQLException e) {
-                    System.out.println("Run Time Exception (Connection)");
-                }
-                try {
-                    Statement statement = connection.createStatement();
-                } catch (SQLException e) {
-                    System.out.println("Run Time Exception (Create)");
-                }
-                System.out.println("Lock Table Connected");
+            try {
+                connection = DriverManager.getConnection(url, username, password);
+            } catch (SQLException e) {
+                System.out.println("Run Time Exception (Connection)");
             }
-        }
-
-        public static void lock(String resourceName, String lockedBy) throws SQLException {
-            String query = "UPDATE locks SET lockedBy = ?, lockTime = NOW() WHERE resourceName = ? AND lockedBy IS NULL";
-
-            PreparedStatement statement = connection.prepareStatement(query);
-            statement.setString(1, lockedBy);
-            statement.setString(2, resourceName);
-
-            int rowsUpdated = statement.executeUpdate();
-
-            if (rowsUpdated == 0) {
-                throw new SQLException("Failed to acquire lock for resource: " + resourceName);
+            try {
+                Statement statement = connection.createStatement();
+            } catch (SQLException e) {
+                System.out.println("Run Time Exception (Create)");
             }
+            System.out.println("Lock Table Connected");
         }
-
-        public static void unlock(String resourceName, String lockedBy) throws SQLException {
-            String query = "UPDATE locks SET lockedBy = NULL, lockTime = NULL WHERE resourceName = ? AND lockedBy = ?";
-
-            PreparedStatement statement = connection.prepareStatement(query);
-            statement.setString(1, resourceName);
-            statement.setString(2, lockedBy);
-
-            int rowsUpdated = statement.executeUpdate();
-
-            if (rowsUpdated == 0) {
-                throw new SQLException("Failed to release lock for resource: " + resourceName);
-            }
-        }
-
     }
+    //Used to lock the database
+    //Stops concurrency issues by making transactions wait for resources to be out of use before starting transaction
+    public static void lock(String resourceName, String lockedBy) throws SQLException {
+        String query = "UPDATE locks SET lockedBy = ?, lockTime = NOW() WHERE resourceName = ? AND lockedBy IS NULL";
+
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setString(1, lockedBy);
+        statement.setString(2, resourceName);
+
+        int rowsUpdated = statement.executeUpdate();
+        if (rowsUpdated == 0) {
+            throw new SQLException("Failed to acquire lock for resource: " + resourceName);
+        }
+    }
+
+    //When a transaction is finished, unlock is called and the locked resource is set to null so other
+    //transactions can be completed on the same database table
+    public static void unlock(String resourceName, String lockedBy) throws SQLException {
+        String query = "UPDATE locks SET lockedBy = NULL, lockTime = NULL WHERE resourceName = ? AND lockedBy = ?";
+
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setString(1, resourceName);
+        statement.setString(2, lockedBy);
+
+        int rowsUpdated = statement.executeUpdate();
+        if (rowsUpdated == 0) {
+            throw new SQLException("Failed to release lock for resource: " + resourceName);
+        }
+    }
+}

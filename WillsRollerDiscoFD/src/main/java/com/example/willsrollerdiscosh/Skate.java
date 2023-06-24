@@ -9,6 +9,7 @@
  *  PURPOSE:
  *      Setters for skate objects. Used for setting values,
  *   */
+//PACKAGE
 package com.example.willsrollerdiscosh;
 
 public class Skate {
@@ -27,7 +28,7 @@ public class Skate {
     public Integer getSkateAmount(){
         return skateAmount;
     }
-    
+
     public void setSkateAmount(Integer skateAmount) {
         this.skateAmount = skateAmount;
     }
