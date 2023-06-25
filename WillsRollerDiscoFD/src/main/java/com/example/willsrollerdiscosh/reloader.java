@@ -22,8 +22,22 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /*Resources Used:
- * Reloaders:
- * Run Laters:  */
+ * Reloaders using Timers:
+ * pcalcao (2012) How to use Timer class to call a method, do something, reset time, repeat?. StackOverflow. [Online]
+ * Available From: https://stackoverflow.com/questions/9413656/how-to-use-timer-class-to-call-a-method-do-something-reset-timer-repeat
+ * [Accessed From 09/03/2023].
+ *
+ * GeeksForGeeks (2023) Java.util.Time Class in Java. GeeksForGeeks [Online]. Available From:
+ * https://www.geeksforgeeks.org/java-util-timer-class-java/ [Accessed From 09/03/2023].
+ *
+ * Run Laters:
+ * invariant (2012) Platform.runLater and Task in JavaFX. StackOverflow [Online]. Available From:
+ * https://stackoverflow.com/questions/13784333/platform-runlater-and-task-in-javafx [Accessed From 31/03/2023]
+ *
+ * jewelsea (2013) How do I safely modify JavaFX GUI nodes from my own Thread?. StackOverflow [Online]. Available From:
+ * https://stackoverflow.com/questions/19945422/how-do-i-safely-modify-javafx-gui-nodes-from-my-own-thread
+ * [Accessed From 31/03/2023]
+ * */
 
 //Used to Reload all the list views, most methods follow the same layout
 //Run laters are used due to JavaFX issues when trying to run all at the same time
@@ -47,7 +61,7 @@ public class reloader {
                     }
                 });
             }
-        }, 0, 800); // reload every second
+        }, 0, 800); // reload every 0.8 Seconds
 
     }
 
@@ -62,7 +76,7 @@ public class reloader {
                     sceneSelector.sessionStatus();
                 });
             }
-        }, 0, 800); // reload every second
+        }, 0, 800); // reload every 0.8 Seconds
 
     }
     //Tickets
@@ -84,7 +98,7 @@ public class reloader {
                     }
                 });
             }
-        }, 0, 800); // reloads every second
+        }, 0, 800); // reload every 0.8 Seconds
     }
 
     //Edit or Delete Tickets Reloader
@@ -106,7 +120,7 @@ public class reloader {
                     }
                 });
             }
-        }, 0, 800); //reload every second
+        }, 0, 800); // reload every 0.8 Seconds
     }
 
     //Maintenance

@@ -25,13 +25,37 @@ import java.util.logging.Logger;
 
 /*Resources Used:
  *Java Loggers:
- *Loggers instead of System prints
- *Connecting to a Database
+ *Kappagantula,S (2022) What is logger in Java and why do you use it?. Edureka [Online] Available From:
+ *https://www.edureka.co/blog/logger-in-java#:~:text=The%20process%20of%20creating%20a,takes%20string%20as%20a%20parameter.
+ *[Accessed 22/06/2023].
+ *
+ * Bhattacharjee, D. (2023) System.out.println vs Loffers. Baeldung [Online] Available From:
+ * https://www.baeldung.com/java-system-out-println-vs-loggers [Accessed 22/06/2023].
+ *
  *Connecting to Docker Hosted Database
- *Observable Lists
- *Locks
- *Database Concurrency
- *Lock Hanging */
+ * Database Star (2022) How to Set Up MySQL Database With Docker. YouTube [Online]. Available From:
+ * https://www.youtube.com/watch?v=kphq2TsVRIs&ab_channel=DatabaseStar [Accessed 23/06/2023].
+ *
+ * Olson, P. Lischke, M. (2014) Importing Data and Schema to MySQL Workbench. stackOverFlow [Online] Available From:
+ * https://stackoverflow.com/questions/26260235/importing-data-and-schema-to-mysql-workbench [Accessed 23/06/2023].
+ *
+ * Observable Lists
+ * Leonardo (2023) JavaFX - List View with an Image Button. StackOverflow [Online] Available From:
+ * https://stackoverflow.com/questions/15661500/javafx-listview-item-with-an-image-button [Accessed 25/02/2023].
+ *
+ * Tom G (2021) Linking the TableView and Observable List. YouTube [Online]. Available From:
+ * https://www.youtube.com/watch?v=BYj2NBjiLDY&ab_channel=TomG [Accessed 25/02/2023].
+ *
+ * Sarah Szabo (2014) TableView with an Embedded ListView. StackOverflow [Online] Available From:
+ * https://stackoverflow.com/questions/25150915/tableview-with-an-embedded-listview [Accessed 25/02/2023].
+ *
+ * Locks and Database Concurrency
+ * Denny Sam (2022) Locking in Databases and Isolation Mechanisms. Medium [Online] Available From:
+ * https://medium.com/inspiredbrilliance/what-are-database-locks-1aff9117c290 [Accessed From: 04/04/2023].
+ *
+ * Ambler, S. (2023) Introduction to Database Concurrency Control. Agile Date [Online] Available From:
+ * http://agiledata.org/essays/concurrencyControl.html [Accessed From: 04/04/2023].
+ * */
 
 public class DBConnect {
     //Defining a Logger, used for error recording
@@ -282,7 +306,7 @@ public class DBConnect {
             System.out.println("Inserted Into Database");
 
         } catch (SQLException e) {
-            log.log(Level.SEVERE,"Announcement not inserted", e);
+            log.log(Level.SEVERE,"Ticket not inserted", e);
         }
     }
 

@@ -18,7 +18,12 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 /*Resources Used:
- * Java DateTime Layouts:  */
+ * Java DateTime Layouts:
+ * w3Schools (2023) Java Date and Time. W3Schools [Online]. Available From: https://www.w3schools.com/java/java_date.asp
+ * [Accessed 15/02/2023].
+ *
+ * Evans, B. Warburton, R. (2014) Java SE 8 Date and Time. Oracle [Online]. Available From:
+ * https://www.oracle.com/technical-resources/articles/java/jf14-date-time.html [Accessed 15/02/2023]. */
 public class dateTime {
     //Creates a date object, passes into a format so just the date is used, returned to class that called it.
     public static String justDate(){

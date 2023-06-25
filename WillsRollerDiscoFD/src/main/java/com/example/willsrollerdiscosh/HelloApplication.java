@@ -30,7 +30,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /*Resources Used:
- * On Exit Code:  */
+ * On Exit Code:
+ * Baeldung (2021) A Guide To System.exit(). Baeldung [Online] Available From: https://www.baeldung.com/java-system-exit
+ * [Accessed From: 30/03/2023].   */
 public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {

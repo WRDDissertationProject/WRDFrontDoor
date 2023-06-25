@@ -26,7 +26,9 @@ import java.sql.SQLException;
 import java.util.List;
 
 /*Resources Used:
- * List Views:  */
+ * List Views:
+ * pragatidhabhai (2021) Android Listview in Java with Example. GeeksForGeeks [Online]. Available From:
+ * https://www.geeksforgeeks.org/android-listview-in-java-with-example/ [Accessed From 08/02/2023]. */
 
 //All classes work the same in this method, if the listView is empty then related values are fetched from the database
 //Then those values are added to the list view in layout defined in their database method.
@@ -52,7 +54,7 @@ public class listViews {
         ObservableList<Skate> data = sceneSelector.loadSkateHire(lv);
         lv.setItems(data);
     }
-    //Tickets for Editing or Deleting Scene
+    //Tickets for Editing or Deleting
     public static void loadTicketEditOrDeleteListView(ListView lv) throws SQLException {
         //If the list view is empty, load the tickets
         if (lv.getItems().isEmpty()) {

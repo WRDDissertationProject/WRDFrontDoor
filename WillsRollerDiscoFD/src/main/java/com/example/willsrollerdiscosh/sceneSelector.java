@@ -38,10 +38,35 @@ import java.util.concurrent.TimeUnit;
 
 /*Resources Used:
  * Loggers:
+ *Kappagantula,S (2022) What is logger in Java and why do you use it?. Edureka [Online] Available From:
+ *https://www.edureka.co/blog/logger-in-java#:~:text=The%20process%20of%20creating%20a,takes%20string%20as%20a%20parameter.
+ *[Accessed 22/06/2023].
+ *
+ * Bhattacharjee, D. (2023) System.out.println vs Loffers. Baeldung [Online] Available From:
+ * https://www.baeldung.com/java-system-out-println-vs-loggers [Accessed 22/06/2023].
+ *
  * Choice Boxes:
- * Custom List Views
- * Locks
- * Delays */
+ * andre1234 (2022) JavaFX | ChoiceBox. GeeksForGeeks. [Online]. Available From:
+ * https://www.geeksforgeeks.org/javafx-choicebox/ [Accessed 05/04/2023].
+ *
+ * Observable Lists:
+ * Leonardo (2023) JavaFX - List View with an Image Button. StackOverflow [Online] Available From:
+ * https://stackoverflow.com/questions/15661500/javafx-listview-item-with-an-image-button [Accessed 25/02/2023].
+ *
+ * Tom G (2021) Linking the TableView and Observable List. YouTube [Online]. Available From:
+ * https://www.youtube.com/watch?v=BYj2NBjiLDY&ab_channel=TomG [Accessed 25/02/2023].
+ *
+ * Sarah Szabo (2014) TableView with an Embedded ListView. StackOverflow [Online] Available From:
+ * https://stackoverflow.com/questions/25150915/tableview-with-an-embedded-listview [Accessed 25/02/2023].
+ *
+ * Locks and Database Concurrency:
+ * Denny Sam (2022) Locking in Databases and Isolation Mechanisms. Medium [Online] Available From:
+ * https://medium.com/inspiredbrilliance/what-are-database-locks-1aff9117c290 [Accessed From: 04/04/2023].
+ *
+ * Ambler, S. (2023) Introduction to Database Concurrency Control. Agile Date [Online] Available From:
+ * http://agiledata.org/essays/concurrencyControl.html [Accessed From: 04/04/2023].
+ */
+
 
 public class sceneSelector {
     //Setting Variables
@@ -342,7 +367,7 @@ public class sceneSelector {
     //Called when the user clicks to create a ticket
     public void createTicket() throws SQLException {
         //used for locks
-        resourceName = " tickets";
+        resourceName = "tickets";
         //Stops the user from submitting an empty text box as a ticket
         if (ticketsTextBox.getText().isEmpty()) {
             errors.alertEmptyBox().show();
@@ -372,7 +397,7 @@ public class sceneSelector {
             String ticket = item.substring(8);
             boolean success = DBConnect.deleteTicket(ticket);
 
-            //If succesful clears the text boxes to reduce confusion
+            //If successful clears the text boxes to reduce confusion
             //Refreshes the list view so the ticket is no longer on the list
             if (success) {
                 ListView<Skate> lv = (ListView<Skate>) scene.lookup("#CTListViewEditOrDelete");

@@ -1,3 +1,15 @@
+/** WILLS ROLLER DISCO - DISSERTATION PROJECT
+ *  AUTHOR : EMILY FLETCHER
+ *  STUDENT NUMBER: 18410839
+ *  APPLICATION: WillsRollerDiscoBM
+ *  FILE TITLE: stylesheet.java
+ *  APPLICATION VERSION: 2.0
+ *  DATE OF WRITING: 20/06/2023
+ *
+ *  PURPOSE:
+ *   Custom Generalised StyleSheet, used to override bugs with XML and SceneBuilder Issues.
+ *   */
+
 * {
     -fx-background-color: transparent;
     -fx-border-style: none;

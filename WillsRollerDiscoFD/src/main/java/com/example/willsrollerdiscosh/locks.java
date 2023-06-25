@@ -17,6 +17,14 @@ package com.example.willsrollerdiscosh;
 //IMPORTS
 import java.sql.*;
 
+/*Resources Used:
+ * Locks and Database Concurrency
+ * Denny Sam (2022) Locking in Databases and Isolation Mechanisms. Medium [Online] Available From:
+ * https://medium.com/inspiredbrilliance/what-are-database-locks-1aff9117c290 [Accessed From: 04/04/2023].
+ *
+ * Ambler, S. (2023) Introduction to Database Concurrency Control. Agile Date [Online] Available From:
+ * http://agiledata.org/essays/concurrencyControl.html [Accessed From: 04/04/2023]. */
+
 public class locks {
     /******************************************************
      Local Testing Database Connections

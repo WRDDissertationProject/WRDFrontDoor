@@ -18,7 +18,10 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 
 /*Resources Used:
- * Alerts:  */
+ * Alerts:
+ * andrew1234 (2021) JavaFX | Alert with Examples. GeeksForGeeks [Online]. Available From:
+ * https://www.geeksforgeeks.org/javafx-alert-with-examples/ [Accessed 08/02/2023].
+ *  */
 public class errors {
     //Called when the user tries to remove skates when skates are 0
     public static Alert minusSkates() {
